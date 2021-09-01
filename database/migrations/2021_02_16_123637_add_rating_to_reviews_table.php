@@ -14,7 +14,7 @@ class AddRatingToReviewsTable extends Migration
     public function up()
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->tinyInteger('rating')->after('book_id');
+            $table->tinyInteger('rating')->after('book_id')->default(0);
         });
     }
 
