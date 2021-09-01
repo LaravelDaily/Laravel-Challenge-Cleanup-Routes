@@ -43,7 +43,7 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function () {
     Route::get('/orders',
         [OrderController::class, 'index'])->name('orders.index');
     Route::prefix('/settings')->group(function () {
-        Route::name('settings.')->group(function () {
+        Route::name('settings')->group(function () {
             Route::get('', [UserSettingsController::class, 'index']);
             Route::post('/{user}', [UserSettingsController::class, 'update'])->name('.update');
         });
