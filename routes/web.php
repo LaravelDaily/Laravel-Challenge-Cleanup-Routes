@@ -25,15 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function(){
-  Route::get('book/create', [BookController::class, 'create'])->name('books.create');
-  Route::post('book/store', [BookController::class, 'store'])->name('books.store');
   Route::get('book/{book:slug}/report/create', [BookReportController::class, 'create'])->name('books.report.create');
   Route::post('book/{book}/report', [BookReportController::class, 'store'])->name('books.report.store');
+  Route::resource('book', BookController::class)->only(['create', 'store'])->names('books');
 
-  Route::get('user/books', [BookController::class, 'index'])->name('user.books.list');
-  Route::get('user/books/{book:slug}/edit', [BookController::class, 'edit'])->name('user.books.edit');
-  Route::put('user/books/{book:slug}', [BookController::class, 'update'])->name('user.books.update');
-  Route::delete('user/books/{book}', [BookController::class, 'destroy'])->name('user.books.destroy');
+  Route::resource('books', BookController::class, ['as' => 'user'])->except('create', 'store')->name('index', 'user.books.list');
 
   Route::get('user/orders', [OrderController::class, 'index'])->name('user.orders.index');
   

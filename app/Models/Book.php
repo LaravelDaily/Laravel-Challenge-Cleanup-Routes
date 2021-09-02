@@ -92,4 +92,9 @@ class Book extends Model implements HasMedia
         $this->addMediaConversion('cover')
               ->fit(Manipulations::FIT_CONTAIN, 330, 384);
     }
+    
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }
