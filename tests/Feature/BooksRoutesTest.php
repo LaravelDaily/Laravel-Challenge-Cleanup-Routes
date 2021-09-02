@@ -89,15 +89,15 @@ class BooksRoutesTest extends TestCase
         $response = $this->actingAs($user)->post(route('books.report.store', $book), []);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('books.show', 'challenge'));
+        $response->assertRedirect(route('books.show', $book->slug));
     }
 
     public function testEveryoneCanViewBookShowPage()
     {
-        User::factory()->create();
+        $user = User::factory()->create();
         $book = Book::factory()->create();
 
-        $response = $this->get(route('books.show', $book->slug));
+        $response = $this->actingAs($user)->get(route('books.show', $book->slug));
 
         $response->assertStatus(200);
     }
