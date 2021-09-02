@@ -26,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::group(['prefix' => '/user', 'as' => 'user.'], function() {
-        Route::resource('books', 'BookController', ['only' => ['index', 'edit', 'update', 'destroy']]);
+        Route::resource('books', BookController::class, ['only' => ['index', 'edit', 'update', 'destroy']]);
 
         Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
 
@@ -42,10 +42,10 @@ Route::middleware(['isAdmin'])->group(function () {
     Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
         Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
         
-        Route::resource('books', 'AdminBookController', ['except' => ['show']]);
+        Route::resource('books', AdminBookController::class, ['except' => ['show']]);
         Route::put('/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
 
-        Route::resource('users', 'AdminUsersController', ['only' => ['index', 'edit', 'update', 'destroy']]); 
+        Route::resource('users', AdminUsersController::class, ['only' => ['index', 'edit', 'update', 'destroy']]); 
     });
 });
 
