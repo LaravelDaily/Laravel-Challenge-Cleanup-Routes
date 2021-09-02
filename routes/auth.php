@@ -23,14 +23,16 @@ Route::middleware('guest')->group(function () {
         Route::post('', [AuthenticatedSessionController::class, 'store']);
     });
 
-    Route::prefix('forgot-password')->group(function () {
-        Route::get('', [PasswordResetLinkController::class, 'create'])->name('password.request');
-        Route::post('', [PasswordResetLinkController::class, 'store'])->name('password.email');
-    });
+    Route::name('password.')->group(function () {
+        Route::prefix('forgot-password')->group(function () {
+            Route::get('', [PasswordResetLinkController::class, 'create'])->name('request');
+            Route::post('', [PasswordResetLinkController::class, 'store'])->name('email');
+        });
 
-    Route::prefix('reset-password')->name('password.')->group(function () {
-        Route::post('', [NewPasswordController::class, 'store'])->name('update');
-        Route::get('{token}', [NewPasswordController::class, 'create'])->name('reset');
+        Route::prefix('reset-password')->group(function () {
+            Route::post('', [NewPasswordController::class, 'store'])->name('update');
+            Route::get('{token}', [NewPasswordController::class, 'create'])->name('reset');
+        });
     });
 });
 
