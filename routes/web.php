@@ -1,5 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUsersController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookReportController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserChangePassword;
+use App\Http\Controllers\UserSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
