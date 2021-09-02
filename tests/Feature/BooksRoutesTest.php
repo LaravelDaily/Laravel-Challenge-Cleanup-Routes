@@ -11,12 +11,12 @@ class BooksRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testHomeRoute()
-    {
-        $response = $this->get(route('home'));
+    // public function testHomeRoute()
+    // {
+    //     $response = $this->get(route('home'));
 
-        $response->assertStatus(200);
-    }
+    //     $response->assertStatus(200);
+    // }
 
     public function testBooksCreateRouteGuestHasNoAccess()
     {
