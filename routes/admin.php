@@ -16,9 +16,9 @@ use App\Http\Controllers\Admin\{
  * name: 'admin.'
  */
 
-Route::get('/', AdminDashboardController::class)->name('index');
+Route::get("/", AdminDashboardController::class)->name("index");
 
-Route::resource("books", AdminBookController::class)->except(['show']);
-Route::put('books/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
+Route::resource("books", AdminBookController::class)->except(["show"]);
+Route::put("books/approve/{book}", [AdminBookController::class, "approveBook"])->name("books.approve");
 
-Route::resource("users", AdminUsersController::class)->only(['index', 'edit', 'update', 'destroy']);
+Route::resource("users", AdminUsersController::class)->only(["index", "edit", "update", "destroy"]);

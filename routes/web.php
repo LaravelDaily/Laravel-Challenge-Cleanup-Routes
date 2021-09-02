@@ -13,5 +13,5 @@ use App\Http\Controllers\{
  * middleware: 'web'
  */
 
-Route::get('/', HomeController::class)->name('home');
-Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
+Route::get("/", HomeController::class)->name("home");
+Route::get("book/{book:slug}", [BookController::class, "show"])->name("books.show");
