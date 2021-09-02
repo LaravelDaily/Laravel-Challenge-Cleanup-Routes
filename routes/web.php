@@ -36,21 +36,25 @@ Route::middleware('auth')->group(function(){
 Route::get('book/{book:slug}', [\App\Http\Controllers\BookController::class, 'show'])->name('books.show');
 
 
-Route::middleware('isAdmin')->group(function(){
-  Route::get('admin', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('admin.index');
+Route::group([
+  'middleware' => 'isAdmin',
+  'prefix' => 'admin',
+  'as' => 'admin.',
+],function(){
+  Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
   
-  Route::get('admin/books', [\App\Http\Controllers\Admin\AdminBookController::class, 'index'])->name('admin.books.index');
-  Route::get('admin/books/create', [\App\Http\Controllers\Admin\AdminBookController::class, 'create'])->name('admin.books.create');
-  Route::post('admin/books', [\App\Http\Controllers\Admin\AdminBookController::class, 'store'])->name('admin.books.store');
-  Route::get('admin/books/{book}/edit', [\App\Http\Controllers\Admin\AdminBookController::class, 'edit'])->name('admin.books.edit');
-  Route::put('admin/books/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'update'])->name('admin.books.update');
-  Route::delete('admin/books/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'destroy'])->name('admin.books.destroy');
-  Route::put('admin/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('admin.books.approve');
+  Route::get('books', [\App\Http\Controllers\Admin\AdminBookController::class, 'index'])->name('books.index');
+  Route::get('books/create', [\App\Http\Controllers\Admin\AdminBookController::class, 'create'])->name('books.create');
+  Route::post('books', [\App\Http\Controllers\Admin\AdminBookController::class, 'store'])->name('books.store');
+  Route::get('books/{book}/edit', [\App\Http\Controllers\Admin\AdminBookController::class, 'edit'])->name('books.edit');
+  Route::put('books/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'update'])->name('books.update');
+  Route::delete('books/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'destroy'])->name('books.destroy');
+  Route::put('book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
   
-  Route::get('admin/users', [\App\Http\Controllers\Admin\AdminUsersController::class, 'index'])->name('admin.users.index');
-  Route::get('admin/users/{user}/edit', [\App\Http\Controllers\Admin\AdminUsersController::class, 'edit'])->name('admin.users.edit');
-  Route::put('admin/users/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'update'])->name('admin.users.update');
-  Route::delete('admin/users/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'destroy'])->name('admin.users.destroy');
+  Route::get('users', [\App\Http\Controllers\Admin\AdminUsersController::class, 'index'])->name('users.index');
+  Route::get('users/{user}/edit', [\App\Http\Controllers\Admin\AdminUsersController::class, 'edit'])->name('users.edit');
+  Route::put('users/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'update'])->name('users.update');
+  Route::delete('users/{user}', [\App\Http\Controllers\Admin\AdminUsersController::class, 'destroy'])->name('users.destroy');
 });
 
 
