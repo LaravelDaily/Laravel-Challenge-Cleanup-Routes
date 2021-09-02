@@ -34,7 +34,7 @@
                        class="bg-transparent hover:bg-blue-400 text-blue-400 font-semibold hover:text-white py-1 px-4 border border-blue-400 hover:border-transparent rounded mr-5">
                         Add book to listing
                     </a>
-                    <a href="{{ route('user.books.list') }}"
+                    <a href="{{ route('user.books.index') }}"
                        class="mr-5 text-sm font-semibold text-blue-400 hover:text-blue-700">My books listing</a>
                     @if (Auth::user()->admin)
                         <a href="{{ route('admin.index') }}"
