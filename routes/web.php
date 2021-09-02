@@ -15,33 +15,35 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 
-Route::middleware(['auth'])->group(function () {
-    //I have no idea what to do with this 5 routes below and what to do with naming
-    Route::get('book/create', [\App\Http\Controllers\BookController::class, 'create'])->name('books.create');
-    Route::post('book/store', [\App\Http\Controllers\BookController::class, 'store'])->name('books.store');
-    Route::get('book/{book:slug}/report/create', [\App\Http\Controllers\BookReportController::class, 'create'])->name('books.report.create');
-    Route::post('book/{book}/report', [\App\Http\Controllers\BookReportController::class, 'store'])->name('books.report.store');
-    Route::get('book/{book:slug}', [\App\Http\Controllers\BookController::class, 'show'])->name('books.show');
+Route::middleware(['auth'])->group(function () { 
+    Route::group(['prefix' => '/book', 'as' => 'books.'], function() {
+        Route::get('create', [\App\Http\Controllers\BookController::class, 'create'])->name('create');
+        Route::post('store', [\App\Http\Controllers\BookController::class, 'store'])->name('store');
+        Route::get('{book:slug}/report/create', [\App\Http\Controllers\BookReportController::class, 'create'])->name('report.create');
+        Route::post('{book}/report', [\App\Http\Controllers\BookReportController::class, 'store'])->name('report.store');
+        Route::get('{book:slug}', [\App\Http\Controllers\BookController::class, 'show'])->name('show');
+    });
 
-    Route::group(['prefix' => '/user'], function() {
+
+    Route::group(['prefix' => '/user', 'as' => 'user.'], function() {
         Route::resource('books', 'BookController', ['only' => ['index', 'edit', 'update', 'destroy']]);
 
-        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('user.orders.index');
+        Route::get('/orders', [\App\Http\Controllers\OrderController::class, 'index'])->name('orders.index');
 
         Route::group(['prefix' => '/settings'], function() {
-            Route::get('/', [\App\Http\Controllers\UserSettingsController::class, 'index'])->name('user.settings');
-            Route::po(st('/{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->name('user.settings.update');
-            Route::post('/password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->name('user.password.update');
+            Route::get('/', [\App\Http\Controllers\UserSettingsController::class, 'index'])->name('settings');
+            Route::po(st('/{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->name('settings.update');
+            Route::post('/password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->name('password.update');
         });
     });
 });
 
 Route::middleware(['isAdmin'])->group(function () {
-    Route::group(['prefix' => '/admin'], function() {
-        Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('admin.index');
+    Route::group(['prefix' => '/admin', 'as' => 'admin.'], function() {
+        Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
         
         Route::resource('books', 'AdminBookController', ['except' => ['show']]);
-        Route::put('/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('admin.books.approve');
+        Route::put('/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
 
         Route::resource('users', 'AdminUsersController', ['only' => ['index', 'edit', 'update', 'destroy']]); 
     });
