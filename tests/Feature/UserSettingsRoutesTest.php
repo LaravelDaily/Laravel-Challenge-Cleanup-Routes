@@ -32,7 +32,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(route('user.settings.update', $user), []);
+        $response = $this->put(route('user.settings.update', $user), []);
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -42,7 +42,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post(route('user.settings.update', $user), []);
+        $response = $this->actingAs($user)->put(route('user.settings.update', $user), []);
 
         $response->assertStatus(302);
         $response->assertRedirect(route('user.settings'));
@@ -52,7 +52,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(route('user.password.update', $user), []);
+        $response = $this->put(route('user.password.update', $user), []);
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -62,7 +62,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post(route('user.password.update', $user), []);
+        $response = $this->actingAs($user)->put(route('user.password.update', $user), []);
 
         $response->assertStatus(302);
         $response->assertRedirect(route('user.settings'));
