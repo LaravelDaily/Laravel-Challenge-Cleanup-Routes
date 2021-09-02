@@ -23,14 +23,18 @@ use App\Http\Controllers\{
 
 Route::get('/', HomeController::class)->name('home');
 
+Route::get('book/{book}', [BookController::class, 'show'])->name('books.show');
+
 Route::middleware('auth')->group(function() {
     // Book operations
-    Route::resource('books', BookController::class)->names([
-        'index' => 'user.books.list',
-        'edit' => 'user.books.edit',
-        'update' => 'user.books.update',
-        'destroy' => 'user.books.destroy',
-    ]);
+    Route::resource('books', BookController::class)
+        ->except(['show'])
+        ->names([
+            'index' => 'user.books.list',
+            'edit' => 'user.books.edit',
+            'update' => 'user.books.update',
+            'destroy' => 'user.books.destroy',
+        ]);
 
     // Book report operations
     Route::name('books.report.')->group(function() {
