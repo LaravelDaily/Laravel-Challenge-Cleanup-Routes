@@ -1,3 +1,6 @@
+# Test pass
+![Tests](screens/tests.png?raw=true "Tests")
+
 # Laravel Challenge: Routes Cleanup
 
 This is a project where `routes/web.php` is a real mess. Individual routes, no grouping, no route names, repeating middlewares, etc.
