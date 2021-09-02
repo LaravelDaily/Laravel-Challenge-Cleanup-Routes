@@ -63,6 +63,11 @@ class Book extends Model implements HasMedia
         return $this->addMedia($file)->toMediaCollection('covers');
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function getDiscountPriceAttribute()
     {
         return round($this->price - ($this->price * $this->discount / 100));
