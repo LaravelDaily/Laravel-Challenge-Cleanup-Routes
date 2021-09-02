@@ -14,7 +14,8 @@ class AddBooksDescription extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->text('description')->after('slug')->default('');
+            $table->text('description')->after('slug')->nullable();
+
         });
     }
 

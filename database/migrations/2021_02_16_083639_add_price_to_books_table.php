@@ -14,7 +14,8 @@ class AddPriceToBooksTable extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->integer('price')->after('description')->default(0);
+            $table->integer('price')->nullable()->after('description');
+
             $table->integer('discount')->after('price')->nullable();
         });
     }
