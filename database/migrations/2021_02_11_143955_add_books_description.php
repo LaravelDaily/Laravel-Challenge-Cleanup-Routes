@@ -15,6 +15,7 @@ class AddBooksDescription extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             $table->text('description')->after('slug')->nullable();
+
         });
     }
 
