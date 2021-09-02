@@ -94,10 +94,10 @@ class BooksRoutesTest extends TestCase
 
     public function testEveryoneCanViewBookShowPage()
     {
-        $user = User::factory()->create();
+        User::factory()->create();
         $book = Book::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('books.show', $book->slug));
+        $response = $this->get(route('books.show', $book->slug));
 
         $response->assertStatus(200);
     }
