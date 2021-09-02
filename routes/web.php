@@ -13,22 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
-Route::get('book/create', [\App\Http\Controllers\BookController::class, 'create'])->middleware('auth')->name('books.create');
-Route::post('book/store', [\App\Http\Controllers\BookController::class, 'store'])->middleware('auth')->name('books.store');
-Route::get('book/{book:slug}/report/create', [\App\Http\Controllers\BookReportController::class, 'create'])->middleware('auth')->name('books.report.create');
-Route::post('book/{book}/report', [\App\Http\Controllers\BookReportController::class, 'store'])->middleware('auth')->name('books.report.store');
-Route::get('book/{book:slug}', [\App\Http\Controllers\BookController::class, 'show'])->name('books.show');
+Route::get('/')->uses(HomeController::class)->name('home');
 
-Route::get('user/books', [\App\Http\Controllers\BookController::class, 'index'])->middleware('auth')->name('user.books.list');
-Route::get('user/books/{book:slug}/edit', [\App\Http\Controllers\BookController::class, 'edit'])->middleware('auth')->name('user.books.edit');
-Route::put('user/books/{book:slug}', [\App\Http\Controllers\BookController::class, 'update'])->middleware('auth')->name('user.books.update');
-Route::delete('user/books/{book}', [\App\Http\Controllers\BookController::class, 'destroy'])->middleware('auth')->name('user.books.destroy');
+Route::delete('user/books/{book:id}')->uses([BookController::class, 'destroy'])->name('user.books.destroy');
+Route::resource('books', BookController::class)->only(['create', 'store', 'show']);
 
-Route::get('user/orders', [\App\Http\Controllers\OrderController::class, 'index'])->middleware('auth')->name('user.orders.index');
+Route::middleware('auth')->group(function () {
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('books', BookController::class)->only(['index', 'edit', 'update'])->names(['index' => 'books.list']);
+        Route::resource('orders', OrderController::class)->only(['index']);
 
-Route::get('user/settings', [\App\Http\Controllers\UserSettingsController::class, 'index'])->middleware('auth')->name('user.settings');
-Route::post('user/settings/{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->middleware('auth')->name('user.settings.update');
-Route::post('user/settings/password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->middleware('auth')->name('user.password.update');
+        Route::get('settings')->uses([UserSettingsController::class, 'index'])->name('settings');
+        Route::post('settings/{user}')->uses([UserSettingsController::class, 'update'])->name('settings.update');
+        Route::post('settings/password/change/{user}')->uses([UserChangePassword::class, 'update'])->name('password.update');
+    });
+    Route::get('book/{book}/report/create')->uses([BookReportController::class, 'create'])->name('books.report.create');
+    Route::post('book/{book:id}/report')->uses([BookReportController::class, 'store'])->name('books.report.store');
+});
 
 require __DIR__ . '/auth.php';
