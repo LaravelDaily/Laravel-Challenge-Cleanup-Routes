@@ -32,7 +32,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::group(['prefix' => '/settings'], function() {
             Route::get('/', [\App\Http\Controllers\UserSettingsController::class, 'index'])->name('settings');
-            Route::po(st('/{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->name('settings.update');
+            Route::post('/{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->name('settings.update');
             Route::post('/password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->name('password.update');
         });
     });
