@@ -29,34 +29,28 @@ Route::middleware('auth')->group(function(){
   Route::post('book/{book}/report', [BookReportController::class, 'store'])->name('books.report.store');
   Route::resource('book', BookController::class)->only(['create', 'store'])->names('books');
 
-  
-  Route::group([
-    'prefix' => 'user',
-  ], function(){
+  Route::prefix('user')->group(function(){
     Route::resource('books', BookController::class, ['as' => 'user'])->except('create', 'store')->name('index', 'user.books.list');
-    Route::group([
-      'as' => 'user.'
-    ], function(){
-        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('settings', [UserSettingsController::class, 'index'])->name('settings');
-        Route::post('settings/{user}', [UserSettingsController::class, 'update'])->name('settings.update');
-        Route::post('settings/password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
+
+    Route::name('user.')->group(function(){
+      Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+
+      Route::prefix('settings')->group(function(){
+        Route::get('/', [UserSettingsController::class, 'index'])->name('settings');
+          Route::post('{user}', [UserSettingsController::class, 'update'])->name('settings.update');
+          Route::post('password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
       });
+    });
   });
 });
 
 Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
-Route::group([
-  'middleware' => 'isAdmin',
-  'prefix' => 'admin',
-  'as' => 'admin.',
-],function(){
+Route::group(['middleware' => 'isAdmin','prefix' => 'admin','as' => 'admin.',],function(){
   Route::get('/', AdminDashboardController::class)->name('index');
   Route::put('book/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
   Route::resource('books', AdminBookController::class);
   Route::resource('users', AdminUsersController::class)->except('create', 'store');
 });
-
 
 require __DIR__ . '/auth.php';
