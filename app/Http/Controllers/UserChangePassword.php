@@ -11,6 +11,6 @@ class UserChangePassword extends Controller
     {
         //
 
-        return redirect()->route('user.settings')->with('success', 'Password updated.');
+        return redirect()->route('user.settings.index')->with('success', 'Password updated.');
     }
 }

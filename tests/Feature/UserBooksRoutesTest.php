@@ -14,7 +14,7 @@ class UserBooksRoutesTest extends TestCase
 
     public function testUserBooksListPageGuestsCannotSee()
     {
-        $response = $this->get(route('user.books.list'));
+        $response = $this->get(route('user.books.index'));
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -24,7 +24,7 @@ class UserBooksRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('user.books.list'));
+        $response = $this->actingAs($user)->get(route('user.books.index'));
 
         $response->assertStatus(200);
     }
@@ -85,6 +85,6 @@ class UserBooksRoutesTest extends TestCase
         $response = $this->actingAs($user)->delete(route('user.books.destroy', $book));
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('user.books.list'));
+        $response->assertRedirect(route('user.books.index'));
     }
 }

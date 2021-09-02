@@ -16,6 +16,6 @@ class UserSettingsController extends Controller
     {
         //
 
-        return redirect()->route('user.settings')->with('success', 'Settings updated.');
+        return redirect()->route('user.settings.index')->with('success', 'Settings updated.');
     }
 }
