@@ -44,29 +44,20 @@ Route::middleware(['auth'])->group(function () {
             Route::put('books/{book:slug}', [BookController::class, 'update'])->name('books.update');
             Route::delete('books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
             Route::get('books', [BookController::class, 'index'])->name('books.list');
-
             //Route::resource('books', BookController::class)->only('edit','update', 'destroy');
-
         });
-
     });
-
-
 });
 Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
 Route::middleware(['isAdmin'])->group(function () {
 
     Route::get('admin', AdminDashboardController::class)->name('admin.index');
-
     Route::name('admin.')->group(function () {
         Route::resource('users', AdminUsersController::class)->only('edit', 'update', 'destroy', 'index');
         Route::resource('books', AdminBookController::class);
         Route::put('admin/book/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
-
-
     });
-
 });
 
 
