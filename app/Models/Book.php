@@ -17,6 +17,10 @@ class Book extends Model implements HasMedia
 
     protected $fillable = ['name', 'slug', 'description', 'price', 'discount', 'user_id', 'approved'];
 
+    protected $atributes = [
+        'description' => '',
+    ];
+
     protected $casts = ['discount' => 'integer'];
 
     protected $perPage = 25;

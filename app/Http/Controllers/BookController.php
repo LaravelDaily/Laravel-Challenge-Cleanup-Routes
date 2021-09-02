@@ -10,9 +10,14 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function index()
     {
-        return view('front.user.books.list');
+        return view('front.user.books.index');
     }
 
     public function show(Book $book)
@@ -45,6 +50,6 @@ class BookController extends Controller
 
     public function destroy(Book $book)
     {
-        return redirect()->route('user.books.list')->with('success', 'Book deleted.');
+        return redirect()->route('user.books.index')->with('success', 'Book deleted.');
     }
 }

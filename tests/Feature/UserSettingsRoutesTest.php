@@ -13,7 +13,7 @@ class UserSettingsRoutesTest extends TestCase
 
     public function testGuestHasNoAccessToUsersSettingsPage()
     {
-        $response = $this->get(route('user.settings'));
+        $response = $this->get(route('user.settings.index'));
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -23,7 +23,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('user.settings'));
+        $response = $this->actingAs($user)->get(route('user.settings.index'));
 
         $response->assertStatus(200);
     }
@@ -32,7 +32,7 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(route('user.settings.update', $user), []);
+        $response = $this->patch(route('user.settings.update', $user), []);
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -42,10 +42,10 @@ class UserSettingsRoutesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post(route('user.settings.update', $user), []);
+        $response = $this->actingAs($user)->patch(route('user.settings.update', $user), []);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('user.settings'));
+        $response->assertRedirect(route('user.settings.index'));
     }
 
     public function testGuestHasNoAccessToUsersPasswordChange()
@@ -65,6 +65,6 @@ class UserSettingsRoutesTest extends TestCase
         $response = $this->actingAs($user)->post(route('user.password.update', $user), []);
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('user.settings'));
+        $response->assertRedirect(route('user.settings.index'));
     }
 }
