@@ -29,17 +29,23 @@ Route::middleware('auth')->group(function(){
   Route::post('book/{book}/report', [BookReportController::class, 'store'])->name('books.report.store');
   Route::resource('book', BookController::class)->only(['create', 'store'])->names('books');
 
-  Route::resource('books', BookController::class, ['as' => 'user'])->except('create', 'store')->name('index', 'user.books.list');
-
-  Route::get('user/orders', [OrderController::class, 'index'])->name('user.orders.index');
   
-  Route::get('user/settings', [UserSettingsController::class, 'index'])->name('user.settings');
-  Route::post('user/settings/{user}', [UserSettingsController::class, 'update'])->name('user.settings.update');
-  Route::post('user/settings/password/change/{user}', [UserChangePassword::class, 'update'])->name('user.password.update');
+  Route::group([
+    'prefix' => 'user',
+  ], function(){
+    Route::resource('books', BookController::class, ['as' => 'user'])->except('create', 'store')->name('index', 'user.books.list');
+    Route::group([
+      'as' => 'user.'
+    ], function(){
+        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('settings', [UserSettingsController::class, 'index'])->name('settings');
+        Route::post('settings/{user}', [UserSettingsController::class, 'update'])->name('settings.update');
+        Route::post('settings/password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
+      });
+  });
 });
 
 Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
-
 
 Route::group([
   'middleware' => 'isAdmin',
