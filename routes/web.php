@@ -33,10 +33,12 @@ Route::middleware('auth')->group(function() {
     });
     
     Route::prefix('user')->name('user.')->group(function() {
-        Route::get('books', [BookController::class, 'index'])->name('books.list');
-        Route::get('books/{book:slug}/edit', [BookController::class, 'edit'])->name('books.edit');
-        Route::put('books/{book:slug}', [BookController::class, 'update'])->name('books.update');
-        Route::delete('books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+        Route::prefix('book')->name('books.')->group(function() {
+            Route::get('/', [BookController::class, 'index'])->name('list');
+            Route::get('{book:slug}/edit', [BookController::class, 'edit'])->name('edit');
+            Route::put('{book:slug}', [BookController::class, 'update'])->name('update');
+            Route::delete('{book}', [BookController::class, 'destroy'])->name('destroy');
+        });
 
         Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('settings', [UserSettingsController::class, 'index'])->name('settings');
