@@ -35,21 +35,21 @@ Route::middleware('auth')->group(function () {
         
         });
 
-        Route::name('admin.')->prefix('admin')->middleware('isAdmin')->group(function () {
-        // prefix admin || isAdmin
-
-            Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
-
-            // admin book resource
-            Route::put('/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
-            Route::resource('books', \App\Http\Controllers\Admin\AdminBookController::class);
-
-            // admin user resource
-            Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class)
-            ->only(['index','update','edit','destroy']);
-        
-        });
-
 });
+
+Route::name('admin.')->prefix('admin')->middleware('isAdmin')->group(function () {
+    // prefix admin || isAdmin
+
+        Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
+
+        // admin book resource
+        Route::put('/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
+        Route::resource('books', \App\Http\Controllers\Admin\AdminBookController::class);
+
+        // admin user resource
+        Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class)
+        ->only(['index','update','edit','destroy']);
+    
+    });
 
 require __DIR__ . '/auth.php';
