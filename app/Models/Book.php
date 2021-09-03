@@ -21,6 +21,14 @@ class Book extends Model implements HasMedia
 
     protected $perPage = 25;
 
+    /**
+     * @inheritDoc
+     */
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function authors()
     {
         return $this->belongsToMany(Author::class);
