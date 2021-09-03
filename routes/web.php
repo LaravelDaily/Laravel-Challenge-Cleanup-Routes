@@ -61,19 +61,11 @@ Route::group(['prefix'=>'user','as'=>'user.','middleware'=>'auth'],function(){
 Route::group(['prefix'=>'admin','as'=>'admin.','middleware'=>'isAdmin'],function(){
 
     Route::get('/', AdminDashboardController::class)->name('index');
-
-    Route::get('books', [AdminBookController::class, 'index'])->name('books.index');
-    Route::get('books/create', [AdminBookController::class, 'create'])->name('books.create');
-    Route::post('books', [AdminBookController::class, 'store'])->name('books.store');
-    Route::get('books/{book}/edit', [AdminBookController::class, 'edit'])->name('books.edit');
-    Route::put('books/{book}', [AdminBookController::class, 'update'])->name('books.update');
-    Route::delete('books/{book}', [AdminBookController::class, 'destroy'])->name('books.destroy');
     Route::put('book/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
 
-    Route::get('users', [AdminUsersController::class, 'index'])->name('users.index');
-    Route::get('users/{user}/edit', [AdminUsersController::class, 'edit'])->name('users.edit');
-    Route::put('users/{user}', [AdminUsersController::class, 'update'])->name('users.update');
-    Route::delete('users/{user}', [AdminUsersController::class, 'destroy'])->name('users.destroy');
+    Route::resource('books', AdminBookController::class)->except(['show']);
+    Route::resource('users', AdminUsersController::class)->only(['index', 'edit', 'update','destroy']);
+
 });
 
 // with laravel/ui package
