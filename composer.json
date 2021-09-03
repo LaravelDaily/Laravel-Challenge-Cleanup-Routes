@@ -15,6 +15,7 @@
         "laravel/cashier": "^12.9",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.3",
         "spatie/laravel-medialibrary": "^9.0",
         "spatie/laravel-sluggable": "^2.6"
     },
