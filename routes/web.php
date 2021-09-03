@@ -51,23 +51,10 @@ Route::middleware('auth')->group(function (){
 
 Route::group(['middleware'=>'isAdmin', 'prefix'=>'admin', 'as'=>'admin.'], function(){
     Route::get('', AdminDashboardController::class)->name('index');
+    Route::resource('books', AdminBookController::class);
+    Route::put('books/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
 
-    Route::group(['prefix'=>'books', 'as'=>'books.'], function (){
-        Route::get('', [AdminBookController::class, 'index'])->name('index');
-        Route::get('create', [AdminBookController::class, 'create'])->name('create');
-        Route::post('', [AdminBookController::class, 'store'])->name('store');
-        Route::get('{book}/edit', [AdminBookController::class, 'edit'])->name('edit');
-        Route::put('{book}', [AdminBookController::class, 'update'])->name('update');
-        Route::delete('{book}', [AdminBookController::class, 'destroy'])->name('destroy');
-        Route::put('approve/{book}', [AdminBookController::class, 'approveBook'])->name('approve');
-    });
-
-    Route::group(['as'=>'users.' , 'prefix'=>'users'],function (){
-        Route::get('', [AdminUsersController::class, 'index'])->name('index');
-        Route::get('{user}/edit', [AdminUsersController::class, 'edit'])->name('edit');
-        Route::put('{user}', [AdminUsersController::class, 'update'])->name('update');
-        Route::delete('{user}', [AdminUsersController::class, 'destroy'])->name('destroy');
-    });
+    Route::resource('users', AdminUsersController::class);
 
 });
 
