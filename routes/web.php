@@ -7,6 +7,7 @@ use \App\Http\Controllers\Admin\{AdminDashboardController,AdminBookController,Ad
 
 /**
  * -- My Notes --
+ * 0- Tests:  52 passed
  * 1- I installed  laravel/ui package to use Auth::routes();  instead of require __DIR__ . '/auth.php';
  * 2- Problem : when i used 'namespace'=>'Admin' or 'namespace'=>'\App\Http\Controllers\Admin' inside route group array
  *   It works only with routes witch calling class without function parm. like AdminDashboardController::class
