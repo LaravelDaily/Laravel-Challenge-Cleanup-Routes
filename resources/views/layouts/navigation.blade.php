@@ -30,11 +30,11 @@
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 @auth
-                    <a href="{{  route('books.create') }}"
+                    <a href="{{  route('user.books.create') }}"
                        class="bg-transparent hover:bg-blue-400 text-blue-400 font-semibold hover:text-white py-1 px-4 border border-blue-400 hover:border-transparent rounded mr-5">
                         Add book to listing
                     </a>
-                    <a href="{{ route('user.books.list') }}"
+                    <a href="{{ route('user.books.index') }}"
                        class="mr-5 text-sm font-semibold text-blue-400 hover:text-blue-700">My books listing</a>
                     @if (Auth::user()->admin)
                         <a href="{{ route('admin.index') }}"
@@ -60,7 +60,7 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('user.orders.index')">Orders</x-dropdown-link>
-                            <x-dropdown-link :href="route('user.settings')">Settings</x-dropdown-link>
+                            <x-dropdown-link :href="route('user.settings.index')">Settings</x-dropdown-link>
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -108,7 +108,7 @@
                 {{ __('Admin') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
+            <x-responsive-nav-link :href="route('user.books.create')" :active="request()->routeIs('user.books.create')">
                 {{ __('Add book to listing') }}
             </x-responsive-nav-link>
         </div>

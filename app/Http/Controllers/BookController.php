@@ -10,41 +10,38 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index()
-    {
+    public function __construct() {
+        $this->middleware('auth')->except('show');
+    }
+    
+    public function index() {
         return view('front.user.books.list');
     }
 
-    public function show(Book $book)
-    {
+    public function show(Book $book) {
         return view('front.book.show', compact('book'));
     }
 
-    public function create()
-    {
+    public function create() {
         return view('front.book.create');
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $book = 'challenge';
 
         return redirect()->route('books.show', $book)->with('success', 'Book created.');
     }
 
-    public function edit(Book $book)
-    {
+    public function edit(Book $book) {
         return view('front.user.books.edit', compact('book'));
     }
 
-    public function update(Request $request, Book $book)
-    {
+    public function update(Request $request, Book $book) {
 
         return redirect()->route('books.show', $book)->with('success', 'Book updated.');
     }
 
-    public function destroy(Book $book)
-    {
+    public function destroy(Book $book) {
         return redirect()->route('user.books.list')->with('success', 'Book deleted.');
     }
 }
