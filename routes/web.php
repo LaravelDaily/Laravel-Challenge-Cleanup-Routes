@@ -9,6 +9,7 @@ use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\Admin\AdminBookController;
 use App\Http\Controllers\Admin\AdminUsersController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', HomeController::class)->name('home');
 
@@ -69,6 +71,6 @@ Route::middleware('isAdmin')->prefix('admin')->name("admin.")->group(function ()
         Route::resource('users', AdminUsersController::class);
 
 });
-require __DIR__ . '/auth.php';
+
 
 
