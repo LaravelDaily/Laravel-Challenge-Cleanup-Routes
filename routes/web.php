@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{book:slug}/report/create', [BookReportController::class, 'create'])->name('report.create');
         Route::post('/{book}/report', [BookReportController::class, 'store'])->name('report.store');
         Route::get('/{book:slug}', [BookController::class, 'show'])->name('show')->withoutMiddleware("auth");
-echo("");
+
     });
 
     Route::prefix('user')->name("user.")->group(function () {
