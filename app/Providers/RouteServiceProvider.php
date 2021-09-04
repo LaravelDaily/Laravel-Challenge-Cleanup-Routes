@@ -47,19 +47,21 @@ class RouteServiceProvider extends ServiceProvider
                     // v2, v3, v4... goes here
                 }
             );
-/*
+
             Route::middleware(['web', 'auth'])
                 ->group(base_path('routes/protected.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/public.php'));
-*/
-            Route::middleware('web')
-                ->group(base_path('routes/web.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/auth.php'));
+
+            Route::middleware(['web', 'isAdmin'])
+                ->group(base_path('routes/is_admin.php'));
+
         });
+
     }
 
     /**
