@@ -105,5 +105,4 @@ Route::group(['middleware' => 'isAdmin',],function () {
 Route::put('admin/book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->middleware('isAdmin')->name('admin.books.approve');
 
 
-
 require __DIR__ . '/auth.php';
