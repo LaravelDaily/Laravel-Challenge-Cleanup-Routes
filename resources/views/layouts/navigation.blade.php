@@ -60,7 +60,7 @@
 
                         <x-slot name="content">
                             <x-dropdown-link :href="route('user.orders.index')">Orders</x-dropdown-link>
-                            <x-dropdown-link :href="route('user.settings')">Settings</x-dropdown-link>
+                            <x-dropdown-link :href="route('user.settings.index')">Settings</x-dropdown-link>
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
