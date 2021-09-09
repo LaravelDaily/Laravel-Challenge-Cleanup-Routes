@@ -1,16 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BookController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\BookReportController;
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\UserSettingsController;
-use App\Http\Controllers\Admin\AdminBookController;
-use App\Http\Controllers\Admin\AdminUsersController;
-use App\Http\Controllers\UserChangePassword;
-
+use App\Http\Controllers\
+{
+  HomeController,
+  BookController,
+  OrderController,
+  BookReportController,
+  UserSettingsController,
+  UserChangePassword
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -29,17 +28,10 @@ Route::get('/', HomeController::class)->name('home');
 Route::middleware(['auth'])->group(function () {
 
 //User Route prefix and name
-Route::group([ 
-            'prefix' => 'user',
-            'as'=>'user.'], function() {
+Route::group(['prefix' => 'user','as'=>'user.'], function() {
 
-Route::get('/books', [BookController::class, 'index'])->name('books.list');
-
-Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
-
-Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
-
-Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+ Route::resource('books',BookController::class)->except(['create','store','show'])
+ ->names(['index'=>'books.list','edit'=>'books.edit','update'=>'books.update','destroy'=>'books.destroy']); 
 
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
@@ -53,9 +45,11 @@ Route::post('/settings/password/change/{user}', [UserChangePassword::class, 'upd
 });
 
 //Book Route prefix and name
-Route::group([ 
-            'prefix' => 'book',
-            'as'=>'books.'], function() {
+Route::group([ 'prefix' => 'book','as'=>'books.'], function() {
+
+Route::resource('book',BookController::class)->only(['create','store'])->names(['create'=>'
+  books,create','store'=>'books.store']);  
+
 
 Route::get('/create', [BookController::class, 'create'])->name('create');
 
@@ -68,39 +62,6 @@ Route::post('/{book}/report', [BookReportController::class, 'store'])->name('rep
 });
 });
 
-
 Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
-
-//Admin Route prefix, name and middleware 
-Route::group([ 
-            'prefix' => 'admin',
-            'as'=>'admin.',
-            'middleware' => 'isAdmin'], function() {
-
-Route::get('/books', [AdminBookController::class, 'index'])->name('books.index');
-   
-Route::get('/books/create', [AdminBookController::class, 'create'])->name('books.create');
-
-Route::post('/books', [AdminBookController::class, 'store'])->name('books.store');
-
-Route::get('/books/{book}/edit', [AdminBookController::class, 'edit'])->name('books.edit');
-
-Route::put('/books/{book}', [AdminBookController::class, 'update'])->name('books.update');
-
-Route::delete('/books/{book}', [AdminBookController::class, 'destroy'])->name('books.destroy');
-
-Route::put('/book/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
-
-Route::get('/users', [AdminUsersController::class, 'index'])->name('users.index');
-
-Route::get('/users/{user}/edit', [AdminUsersController::class, 'edit'])->name('users.edit');
-
-Route::put('/users/{user}', [AdminUsersController::class, 'update'])->name('users.update');
-
-Route::delete('/users/{user}', [AdminUsersController::class, 'destroy'])->name('users.destroy');
-    
-Route::get('/', AdminDashboardController::class)->name('index');
-
-});
 
 require __DIR__ . '/auth.php';
