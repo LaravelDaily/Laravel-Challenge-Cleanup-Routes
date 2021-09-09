@@ -58,6 +58,11 @@ class Book extends Model implements HasMedia
         return $this->update(['approved' => 1]);
     }
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function attachCover($file)
     {
         return $this->addMedia($file)->toMediaCollection('covers');
