@@ -12,7 +12,6 @@ use Illuminate\Database\Seeder;
 
 class BooksSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *
@@ -40,5 +39,4 @@ class BooksSeeder extends Seeder
             }
         );
     }
-
 }

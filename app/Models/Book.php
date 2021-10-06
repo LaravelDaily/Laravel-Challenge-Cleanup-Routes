@@ -13,7 +13,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Book extends Model implements HasMedia
 {
-    use HasFactory, HasSlug, InteractsWithMedia;
+    use HasFactory;
+    use HasSlug;
+    use InteractsWithMedia;
 
     protected $fillable = ['name', 'slug', 'description', 'price', 'discount', 'user_id', 'approved'];
 
