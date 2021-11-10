@@ -30,8 +30,3 @@ Good luck!
 - Run __php artisan key:generate__
 - Run __php artisan migrate --seed__ (it has some seeded data for your testing)
 - That's it: launch the main URL.
-
-```bash
-php artisan key:generate
-```
-
