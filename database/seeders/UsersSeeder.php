@@ -16,8 +16,8 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-         // Admin user
-         User::create([
+        // Admin user
+        User::create([
              'name' => 'Admin',
              'email' => 'admin@admin.com',
              'password' => bcrypt('password'),
@@ -25,7 +25,7 @@ class UsersSeeder extends Seeder
              'date_of_birth' => Carbon::today()
          ]);
 
-         User::create([
+        User::create([
              'name' => 'User',
              'email' => 'user@example.com',
              'password' => bcrypt('password'),

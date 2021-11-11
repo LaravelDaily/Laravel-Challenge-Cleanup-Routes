@@ -15,7 +15,10 @@ use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class HandleChargeSucceeded implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /** @var \Spatie\WebhookClient\Models\WebhookCall */
     public $webhookCall;

@@ -39,7 +39,6 @@ class BookController extends Controller
 
     public function update(Request $request, Book $book)
     {
-
         return redirect()->route('books.show', $book)->with('success', 'Book updated.');
     }
 

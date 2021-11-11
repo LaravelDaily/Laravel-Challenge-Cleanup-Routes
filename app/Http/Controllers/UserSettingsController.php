@@ -11,7 +11,7 @@ class UserSettingsController extends Controller
     {
         return view('front.user.settings');
     }
-    
+
     public function update(Request $request, User $user)
     {
         //
