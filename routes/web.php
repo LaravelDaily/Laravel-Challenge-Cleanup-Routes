@@ -1,14 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{AdminDashboardController, AdminBookController, AdminUsersController};
 use App\Http\Controllers\{
-    HomeController,
     BookController,
     BookReportController,
     OrderController,
     UserSettingsController,
     UserChangePassword,
+    Admin\AdminDashboardController,
+    Admin\AdminBookController,
+    Admin\AdminUsersController,
 };
 
 /*
