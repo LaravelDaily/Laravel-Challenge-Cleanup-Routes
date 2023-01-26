@@ -43,12 +43,10 @@ Route::middleware('auth')->group(function () {
         Route::post('/settings/{user}', [UserSettingsController::class, 'update'])->name('settings.update');
         Route::post('/settings/password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
 
-        Route::prefix('/books')->name('books.')->group(function () {
-            Route::get('/', [BookController::class, 'index'])->name('list');
-            Route::get('/{book:slug}/edit', [BookController::class, 'edit'])->name('edit');
-            Route::put('/{book:slug}', [BookController::class, 'update'])->name('update');
-            Route::delete('/{book}', [BookController::class, 'destroy'])->name('destroy');
-        });
+        Route::resource('books', BookController::class)
+            ->only(['index', 'edit', 'update', 'destroy'])
+            ->scoped(['book' => 'slug'])
+            ->names(['index' => 'books.list']);
     });
 });
 
@@ -56,22 +54,10 @@ Route::middleware('auth')->group(function () {
 Route::prefix('/admin')->name('admin.')->middleware('isAdmin')->group(function () {
     Route::get('/', AdminDashboardController::class)->name('index');
 
-    Route::prefix('/books')->name('books.')->group(function () {
-        Route::get('/', [AdminBookController::class, 'index'])->name('index');
-        Route::get('/create', [AdminBookController::class, 'create'])->name('create');
-        Route::post('/', [AdminBookController::class, 'store'])->name('store');
-        Route::get('/{book}/edit', [AdminBookController::class, 'edit'])->name('edit');
-        Route::put('/{book}', [AdminBookController::class, 'update'])->name('update');
-        Route::delete('/{book}', [AdminBookController::class, 'destroy'])->name('destroy');
-        Route::put('/approve/{book}', [AdminBookController::class, 'approveBook'])->name('approve');
-    });
+    Route::resource('books', AdminBookController::class);
+    Route::put('/books/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
 
-    Route::prefix('/users')->name('users.')->group(function () {
-        Route::get('/', [AdminUsersController::class, 'index'])->name('index');
-        Route::get('/{user}/edit', [AdminUsersController::class, 'edit'])->name('edit');
-        Route::put('/{user}', [AdminUsersController::class, 'update'])->name('update');
-        Route::delete('/{user}', [AdminUsersController::class, 'destroy'])->name('destroy');
-    });
+    Route::resource('users', AdminUsersController::class);
 });
 
 require __DIR__ . '/auth.php';
