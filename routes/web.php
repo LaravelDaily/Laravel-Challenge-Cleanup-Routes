@@ -1,5 +1,15 @@
 <?php
 
+
+
+use App\Http\Controllers\{
+    BookController,
+    BookReportController,
+    HomeController,
+    OrderController,
+    UserChangePassword,
+    UserSettingsController,
+};
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,46 +23,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+Route::get('/', HomeController::class)->name('home');
 
-Route::get('book/{book:slug}', [\App\Http\Controllers\BookController::class, 'show'])->name('books.show');
+Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
-Route::middleware(['auth'])->group(function (){
-    Route::resource('books', \App\Http\Controllers\BookController::class)
+Route::middleware(['auth'])->group(function () {
+    Route::resource('books', BookController::class)
         ->only(['create', 'store'])
         ->scoped(['book' => 'slug']);
 
-    Route::resource('books.report', \App\Http\Controllers\BookReportController::class)
+    Route::resource('books.report', BookReportController::class)
         ->only(['create', 'store'])
         ->scoped(['book' => 'slug']);;
 
-    Route::prefix('user')->name('user.')->group(function (){
-        Route::resource('books', \App\Http\Controllers\BookController::class)
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('books', BookController::class)
             ->except(['create', 'store', 'show'])
             ->names(['index' => 'books.list'])
             ->scoped(['book' => 'slug']);
 
-        Route::resource('orders', \App\Http\Controllers\OrderController::class)->only('index');
+        Route::resource('orders', OrderController::class)->only('index');
 
-        Route::prefix('settings')->group(function (){
-            Route::post('password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->name('password.update');
-            Route::post('{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->name('settings.update');
+        Route::prefix('settings')->group(function () {
+            Route::post('password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
+            Route::post('{user}', [UserSettingsController::class, 'update'])->name('settings.update');
         });
 
-        Route::resource('settings', \App\Http\Controllers\UserSettingsController::class)
+        Route::resource('settings', UserSettingsController::class)
             ->names(['index' => 'settings'])
             ->only('index');
     });
 });
 
-
-Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function (){
-    Route::get('/', \App\Http\Controllers\Admin\AdminDashboardController::class)->name('index');
-
-    Route::resource('books', \App\Http\Controllers\Admin\AdminBookController::class);
-    Route::put('book/approve/{book}', [\App\Http\Controllers\Admin\AdminBookController::class, 'approveBook'])->name('books.approve');
-
-    Route::resource('users', \App\Http\Controllers\Admin\AdminUsersController::class)
-        ->only(['index', 'edit', 'update','destroy']);
-});
+// or define that in app/Providers/RouteServiceProvider
+/*Route::middleware(['isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    require __DIR__ . '/admin.php';
+});*/
 require __DIR__ . '/auth.php';
