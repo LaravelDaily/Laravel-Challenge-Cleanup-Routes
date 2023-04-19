@@ -15,11 +15,6 @@ class BookController extends Controller
         return view('front.user.books.list');
     }
 
-    public function show(Book $book)
-    {
-        return view('front.book.show', compact('book'));
-    }
-
     public function create()
     {
         return view('front.book.create');
@@ -30,6 +25,10 @@ class BookController extends Controller
         $book = 'challenge';
 
         return redirect()->route('books.show', $book)->with('success', 'Book created.');
+    }
+    public function show(Book $book)
+    {
+        return view('front.book.show', compact('book'));
     }
 
     public function edit(Book $book)
