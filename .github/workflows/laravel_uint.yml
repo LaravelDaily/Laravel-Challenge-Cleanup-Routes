@@ -1,4 +1,4 @@
-name: Laravel
+name: Laravel_unit_test
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  laravel-tests:
+  Laravel_unit_test:
 
     runs-on: ubuntu-latest
 
