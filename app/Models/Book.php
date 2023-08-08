@@ -21,6 +21,11 @@ class Book extends Model implements HasMedia
 
     protected $perPage = 25;
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function authors()
     {
         return $this->belongsToMany(Author::class);
@@ -90,6 +95,6 @@ class Book extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('cover')
-              ->fit(Manipulations::FIT_CONTAIN, 330, 384);
+            ->fit(Manipulations::FIT_CONTAIN, 330, 384);
     }
 }
