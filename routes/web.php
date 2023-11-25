@@ -44,12 +44,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], func
 });
 
 Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
-    Route::get('orders', [\App\Http\Controllers\OrderController::class, 'index'])->middleware('auth')->name('orders.index');
+    Route::get('orders', [OrderController::class, 'index'])->middleware('auth')->name('orders.index');
 
     Route::group(['prefix' => 'settings'], function () {
-        Route::get('/', [\App\Http\Controllers\UserSettingsController::class, 'index'])->middleware('auth')->name('settings');
-        Route::post('{user}', [\App\Http\Controllers\UserSettingsController::class, 'update'])->middleware('auth')->name('settings.update');
-        Route::post('password/change/{user}', [\App\Http\Controllers\UserChangePassword::class, 'update'])->middleware('auth')->name('password.update');
+        Route::get('/', [UserSettingsController::class, 'index'])->middleware('auth')->name('settings');
+        Route::post('{user}', [UserSettingsController::class, 'update'])->middleware('auth')->name('settings.update');
+        Route::post('password/change/{user}', [UserChangePassword::class, 'update'])->middleware('auth')->name('password.update');
     });
 });
 
