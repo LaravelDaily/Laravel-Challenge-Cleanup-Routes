@@ -2,14 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    Admin\AdminBookController,
-    Admin\AdminDashboardController,
-    Admin\AdminUsersController,
     BookController,
     BookReportController,
     OrderController,
     UserSettingsController,
-    UserChangePassword
+    UserChangePassword,
 };
 
 /*
@@ -25,41 +22,25 @@ use App\Http\Controllers\{
 
 Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'book'], function () {
-    Route::resource('/', BookController::class)->only('create', 'store');
-
-    Route::group(['as' => 'books.'], function () {
-        Route::get('create', [BookController::class, 'create'])->name('create');
-        Route::post('store', [BookController::class, 'store'])->name('store');
-
+Route::middleware(['auth'])->group(function () {
+    Route::resource('book', BookController::class)->only(['create', 'store'])->names([
+        'create' => 'books.create',
+        'store' => 'books.store',
+    ]);
+    Route::prefix('book')->name('books.')->group(function () {
+        Route::get('{book:slug}', [BookController::class, 'show'])->name('show')->withoutMiddleware('auth');
         Route::get('{book:slug}/report/create', [BookReportController::class, 'create'])->name('report.create');
         Route::post('{book}/report', [BookReportController::class, 'store'])->name('report.store');
     });
-});
-
-Route::get('book/{book:slug}', [BookController::class, 'show'])->name('books.show');
-
-Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
-    Route::resource('books', BookController::class)->only(['index', 'edit', 'update', 'destroy'])->name('index', 'books.list')->parameter('books', 'book:slug');
-});
-
-Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
-    Route::get('orders', [OrderController::class, 'index'])->middleware('auth')->name('orders.index');
-
-    Route::group(['prefix' => 'settings'], function () {
-        Route::get('/', [UserSettingsController::class, 'index'])->middleware('auth')->name('settings');
-        Route::post('{user}', [UserSettingsController::class, 'update'])->middleware('auth')->name('settings.update');
-        Route::post('password/change/{user}', [UserChangePassword::class, 'update'])->middleware('auth')->name('password.update');
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::resource('books', BookController::class)->only(['index', 'edit', 'update', 'destroy'])->name('index', 'books.list')->parameter('books', 'book:slug');
+        Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::prefix('settings')->group(function () {
+            Route::get('/', [UserSettingsController::class, 'index'])->name('settings');
+            Route::post('{user}', [UserSettingsController::class, 'update'])->name('settings.update');
+            Route::post('password/change/{user}', [UserChangePassword::class, 'update'])->name('password.update');
+        });
     });
-});
-
-Route::group(['middleware' => 'isAdmin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/', AdminDashboardController::class)->name('index');
-    Route::put('book/approve/{book}', [AdminBookController::class, 'approveBook'])->name('books.approve');
-    Route::resources([
-        'books' => AdminBookController::class,
-        'users' => AdminUsersController::class,
-    ]);
 });
 
 require __DIR__ . '/auth.php';
